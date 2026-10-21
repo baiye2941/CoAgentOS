@@ -1,0 +1,20 @@
+# 虚拟环境
+.venv/
+venv/
+
+# Python 产物
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.hypothesis/
+*.egg-info/
+
+# 密钥与本地配置
+AIOS/aios/config/config.yaml
+.env
+
+# 运行时产物（内核启动时生成）
+proc/
+root/
+.mem0/
+*.log

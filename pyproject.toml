@@ -1,0 +1,69 @@
+[project]
+name = "coagentos"
+version = "0.1.0"
+description = "CoAgentOS: AIOS kernel + Cerebrum SDK"
+requires-python = ">=3.10,<3.12"
+
+dependencies = [
+    # ---- AIOS 内核依赖（迁移自 AIOS/requirements.txt）----
+    "litellm",
+    "pydantic>=2.7.0",
+    "click==8.1.7",
+    "fastapi",
+    "uvicorn",
+    "transformers",
+    "accelerate",
+    "python-dotenv",
+    "chromadb",
+    "llama_index==0.10.19",
+    "llama_index_core==0.10.19",
+    "numpy==1.24.3",
+    "soundfile",
+    "prompt_toolkit",
+    "rich",
+    "watchdog>=2.1.9",
+    "redis>=4.5.1",
+    "sentence-transformers",
+    "nltk",
+    "hypothesis",
+    "scikit-learn",
+    "pulp",
+    "gdown",
+    "typing-extensions",
+    "qdrant-client",
+    "fastembed",
+    "openai",
+    "tiktoken",
+    "PyYAML",
+    "mcp",
+    "opentelemetry-api>=1.25.0",
+    "opentelemetry-sdk>=1.25.0",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.25.0",
+    "opentelemetry-proto>=1.25.0",
+    "mem0ai>=2.0.0",
+    "zep-cloud==2.0.0",
+    
+    "pyarrow==16.1.0",   # pyarrow>=21 按 numpy 2.x ABI 编译，与 numpy==1.24.3 冲突
+    "datasets==2.16.1",  # sentence-transformers 6.x 导入时需要 datasets>=2.x 顶层导出
+    "pip",               # uv venv 默认无 pip；Cerebrum 加载 agent 时硬编码 python -m pip
+    # ---- SDK：来自 Cerebrum ----
+    "aios-agent-sdk",
+]
+
+# 使用 本地 GPU 部署开源模型时用 
+# [project.optional-dependencies]
+# vllm = ["vllm"]          # 对应 requirements-cuda.txt
+
+[tool.uv]
+package = false          # 根本身是应用不是库，不构建不安装
+
+[tool.uv.workspace]
+members = ["Cerebrum"]   # AIOS 保持普通目录（靠 CWD 导入），不作为成员
+
+[tool.uv.sources]
+aios-agent-sdk = { workspace = true }   # 用本地 Cerebrum  editable 安装，改代码即时生效
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
